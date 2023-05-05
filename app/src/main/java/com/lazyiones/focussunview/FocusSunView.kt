@@ -114,44 +114,62 @@ class FocusSunView : View {
             focusAnimator = null
         }
         if (countdown == null) {
-            focusAnimator = ValueAnimator.ofFloat(0f, 1.3f, 1f).setDuration(500)
-            if (focusAnimator != null) {
-                focusAnimator?.addUpdateListener { animation ->
-                    val value = animation.animatedValue as Float
-                    val left = (width / 2f) - frameRadius
-                    val right = (width / 2f) + frameRadius
-                    val top = (height / 2f) - frameRadius
-                    val bottom = (height / 2f) + frameRadius
-                    frameRectF.left = left - (((right - left) / 5f) - (((right - left) / 5f) * value))
-                    frameRectF.right = right + ((right - left) / 5f - (((right - left) / 5f) * value))
-                    frameRectF.top = top - ((bottom - top) / 5f - (((bottom - top) / 5f) * value))
-                    frameRectF.bottom = bottom + ((bottom - top) / 5f - (((bottom - top) / 5f) * value))
-                    postInvalidate()
-                }
-                focusAnimator?.addListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator?) {
-                        focusAnimator = null
-                        countdown = object : CountDownTimer(5000, 1000) {
-                            override fun onTick(millisUntilFinished: Long) {
-                                if (millisUntilFinished in 1000..2500) {
-                                    paintColor = Color.parseColor("#FFAAAAAA")
-                                    postInvalidate()
-                                }
-                            }
-
-                            override fun onFinish() {
-                                countdown = null
-                                visibility = GONE
-                            }
-                        }.start()
+            if (!reset) {
+                countdown = object : CountDownTimer(5000, 1000) {
+                    override fun onTick(millisUntilFinished: Long) {
+                        if (millisUntilFinished in 1000..2500) {
+                            paintColor = Color.parseColor("#FFAAAAAA")
+                            postInvalidate()
+                        }
                     }
-                })
-                focusAnimator?.start()
+
+                    override fun onFinish() {
+                        countdown = null
+                        visibility = GONE
+                    }
+                }.start()
+            } else {
+                focusAnimator = ValueAnimator.ofFloat(0f, 1.3f, 1f).setDuration(500)
+                if (focusAnimator != null) {
+                    focusAnimator?.addUpdateListener { animation ->
+                        val value = animation.animatedValue as Float
+                        val left = (width / 2f) - frameRadius
+                        val right = (width / 2f) + frameRadius
+                        val top = (height / 2f) - frameRadius
+                        val bottom = (height / 2f) + frameRadius
+                        frameRectF.left = left - (((right - left) / 5f) - (((right - left) / 5f) * value))
+                        frameRectF.right = right + ((right - left) / 5f - (((right - left) / 5f) * value))
+                        frameRectF.top = top - ((bottom - top) / 5f - (((bottom - top) / 5f) * value))
+                        frameRectF.bottom = bottom + ((bottom - top) / 5f - (((bottom - top) / 5f) * value))
+                        postInvalidate()
+                    }
+                    focusAnimator?.addListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationEnd(animation: Animator?) {
+                            focusAnimator = null
+                            countdown = object : CountDownTimer(5000, 1000) {
+                                override fun onTick(millisUntilFinished: Long) {
+                                    if (millisUntilFinished in 1000..2500) {
+                                        paintColor = Color.parseColor("#FFAAAAAA")
+                                        postInvalidate()
+                                    }
+                                }
+
+                                override fun onFinish() {
+                                    countdown = null
+                                    visibility = GONE
+                                }
+                            }.start()
+                        }
+                    })
+                    focusAnimator?.start()
+                }
             }
         }
     }
 
     override fun onDetachedFromWindow() {
+        focusAnimator?.cancel()
+        focusAnimator = null
         countdown?.cancel()
         countdown = null
         super.onDetachedFromWindow()

@@ -6,8 +6,6 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.updateLayoutParams
 
 class MainActivity : AppCompatActivity() {
     @SuppressLint("ClickableViewAccessibility") override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,10 +18,8 @@ class MainActivity : AppCompatActivity() {
             when (motionEvent.action) {
                 MotionEvent.ACTION_DOWN -> {
                     focusSunView.visibility = View.VISIBLE
-                    focusSunView.updateLayoutParams<ConstraintLayout.LayoutParams> {
-                        topMargin = (motionEvent.y - (focusSunView.height / 2f)).toInt()
-                        marginStart = (motionEvent.x - (focusSunView.width / 2f)).toInt()
-                    }
+                    focusSunView.translationX = motionEvent.x - (focusSunView.width / 2f)
+                    focusSunView.translationY = motionEvent.y - (focusSunView.height / 2f)
                     focusSunView.startCountdown()
                 }
             }
