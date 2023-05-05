@@ -222,6 +222,7 @@ class FocusSunView : View {
             }
             // 画中间月亮效果
             if (realProcess < .5f) {
+                // 张弦月
                 val left = centerOfCircle - (((circleRadius - dp2) * 2f) * abs(realProcess - 0.5f))
                 val top = (height * progress) - (circleRadius - dp2)
                 val right = centerOfCircle + (((circleRadius - dp2) * 2f) * abs(realProcess - 0.5f))
@@ -231,10 +232,12 @@ class FocusSunView : View {
                     centerOfCircle + (circleRadius - dp2), (height * progress) + (circleRadius - dp2),
                     90f, 180f, false, moonPaint)
             } else if (realProcess == .5f) {
+                // 下弦月
                 drawArc(centerOfCircle - (circleRadius - dp2), (height * progress) - (circleRadius - dp2),
                     centerOfCircle + (circleRadius - dp2), (height * progress) + (circleRadius - dp2),
                     90f, 180f, false, moonPaint)
             } else {
+                // 残月
                 val save = saveLayer(null, null)
                 val left = centerOfCircle - (((circleRadius - dp2) * 2f) * abs(realProcess - 0.5f))
                 val top = (height * progress) - (circleRadius - dp2)
