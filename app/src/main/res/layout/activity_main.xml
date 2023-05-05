@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
     <View
-        android:id="@+id/click_view"
+        android:id="@+id/preview_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/black" />
@@ -17,7 +17,7 @@
         android:layout_width="120dp"
         android:layout_height="140dp"
         android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/preview_view"
+        app:layout_constraintTop_toTopOf="@+id/preview_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

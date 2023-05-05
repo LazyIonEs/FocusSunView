@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
 
         val focusSunView = findViewById<FocusSunView>(R.id.focus_sun_view)
 
-        findViewById<View>(R.id.click_view).setOnTouchListener { _, motionEvent ->
+        findViewById<View>(R.id.preview_view).setOnTouchListener { _, motionEvent ->
             when (motionEvent.action) {
                 MotionEvent.ACTION_DOWN -> {
                     focusSunView.visibility = View.VISIBLE
